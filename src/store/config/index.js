@@ -258,6 +258,9 @@ export default {
         commit('alert/UPDATE_REALERT', config.realert);
         commit('alert/UPDATE_ALERT', config.alert);
 
+        commit('alert/UPDATE_CUSTOM_ALERT_FROM_KEYS', config);
+        commit('alert/INIT_CUSTOM_ALERT_TYPE', config.alert);
+
         if (config.alert_text_type) {
           commit('alert/UPDATE_BODY_TYPE', config.alert_text_type);
         } else {
@@ -870,6 +873,26 @@ export default {
       return config;
     },
 
+    customAlert(state) {
+      let config = {};
+
+      if (state.alert.customAlert && state.alert.customAlertType) {
+        config.alertCopy = [state.alert.customAlertType];
+
+        config.custom_alert_keys = [];
+        let customAlertKeyValues = state.alert.customAlert.split('\n');
+        customAlertKeyValues.forEach(i => {
+          let row = i.split(':');
+          if (row.length === 2) {
+            config[row[0]] = row[1];
+            config.custom_alert_keys.push(row[0]);
+          }
+        });
+      }
+
+      return config;
+    },
+
     subjectBody(state) {
       let config = {};
 
@@ -1022,6 +1045,16 @@ export default {
         config = { ...config, ...getters.mattermost };
       }
 
+      if (state.alert.alert.includes('customAlert')) {
+        config = {
+          ...config,
+          ...getters.customAlert
+        };
+        config.alert = [...config.alert, ...config.alertCopy];
+        config.alert = config.alert.filter(i => i !== 'customAlert');
+        delete config.alertCopy;
+      }
+
       if (state.alert.alert.includes('email')
           || state.alert.alert.includes('slack')
           || state.alert.alert.includes('ms_teams')
@@ -1033,8 +1066,8 @@ export default {
           || state.alert.alert.includes('zabbix')
           || state.alert.alert.includes('linenotify')
           || state.alert.alert.includes('mattermost')
-          || state.alert.alert.includes('command')
-          || state.alert.alert.includes('gitter')) {
+          || state.alert.alert.includes('gitter')
+          || state.alert.alert.includes('customAlert')) {
         config = { ...config, ...getters.subjectBody };
       }
 

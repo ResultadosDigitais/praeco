@@ -1,6 +1,7 @@
 # The elasticsearch hostname for metadata writeback
 # Note that every rule can have its own elasticsearch host
 es_host: elasticsearch
+es_conn_timeout: 120
 
 # The elasticsearch port
 es_port: 9200

@@ -9,6 +9,8 @@ RUN mkdir -p /var/www/html
 RUN chown www-data:www-data /var/www/html
 WORKDIR /tmp/nginx/praeco
 COPY package.json .
+COPY nginx_config/default.conf /etc/nginx/conf.d/default.conf
+COPY nginx_config/nginx.conf /etc/nginx/nginx.conf
 
 FROM base AS dependencies
 RUN npm install --loglevel error
