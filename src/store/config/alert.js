@@ -62,7 +62,8 @@ function initialState() {
     httpPostUrl: '',
 
     customAlert: null,
-    customAlertType: null
+    customAlertType: null,
+    alertTypesWithOwnTabs: ['email', 'slack', 'post', 'jira']
   };
 }
 
