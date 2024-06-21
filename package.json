@@ -50,7 +50,7 @@
     "valid-url": "1.0.9",
     "vue": "2.6.12",
     "vue-at": "2.5.0-beta.2",
-    "vue-echarts": "3.1.2",
+    "vue-echarts": "4.0.0",
     "vue-infinite-scroll": "2.0.2",
     "vue-json-pretty": "1.6.7",
     "vue-native-websocket": "2.0.14",
